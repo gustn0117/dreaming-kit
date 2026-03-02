@@ -41,3 +41,8 @@
   background: #ccc;
   border-radius: 3px;
 }
+
+/* smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
