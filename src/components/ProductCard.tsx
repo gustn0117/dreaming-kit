@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Product } from "@/data/products";
+import type { Product } from "@/types/product";
 import PlaceholderImage from "./PlaceholderImage";
 
 export default function ProductCard({ product }: { product: Product }) {

@@ -1,12 +1,11 @@
-import { products } from "@/data/products";
-import { reviews } from "@/data/reviews";
+import { createServerClient } from "@/lib/supabase/server";
+import { mapProduct } from "@/types/product";
+import { mapReview } from "@/types/review";
 import { notFound } from "next/navigation";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import StarRating from "@/components/StarRating";
 
-export function generateStaticParams() {
-  return products.map((product) => ({ id: product.id }));
-}
+export const revalidate = 60;
 
 export default async function ProductDetailPage({
   params,
@@ -14,20 +13,34 @@ export default async function ProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = products.find((p) => p.id === id);
+  const supabase = createServerClient();
 
-  if (!product) {
+  const { data: productData } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (!productData) {
     notFound();
   }
 
-  const productReviews = reviews.filter((r) => r.productId === id);
+  const product = mapProduct(productData);
+
+  const { data: reviewData } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("product_id", id)
+    .order("created_at", { ascending: false });
+
+  const productReviews = (reviewData ?? []).map(mapReview);
 
   return (
     <div className="animate-fade-in-up mx-auto max-w-7xl px-8 py-16">
       {/* 상품 상세 */}
       <div className="flex flex-col gap-16 md:flex-row">
         {/* 상품 이미지 */}
-        <div className="w-full shrink-0 md:w-[480px]">
+        <div className="w-full shrink-0 md:w-120">
           <div className="aspect-4/5 overflow-hidden bg-gray-50">
             <PlaceholderImage
               src={product.image}
@@ -123,8 +136,8 @@ export default async function ProductDetailPage({
       <section>
         <div className="space-y-0">
           {productReviews.length > 0 ? (
-            productReviews.map((review, index) => (
-              <div key={index} className="border-b border-gray-50 py-8 first:pt-0 last:border-0">
+            productReviews.map((review) => (
+              <div key={review.id} className="border-b border-gray-50 py-8 first:pt-0 last:border-0">
                 <div className="flex items-center gap-4">
                   <StarRating rating={review.rating} />
                   <span className="text-sm font-medium text-gray-800">{review.nickname}</span>
