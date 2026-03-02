@@ -32,10 +32,10 @@ export default async function ArtistPage() {
 
       {/* 작가 그리드 */}
       {artists.length > 0 ? (
-        <div className="stagger-children grid grid-cols-2 gap-x-8 gap-y-16 md:grid-cols-3">
+        <div className="stagger-children grid grid-cols-2 gap-x-8 gap-y-14 md:grid-cols-4">
           {artists.map((artist) => (
             <div key={artist.id} className="group text-center">
-              <div className="mx-auto aspect-3/4 w-full max-w-70 overflow-hidden bg-gray-50">
+              <div className="mx-auto aspect-square w-full max-w-44 overflow-hidden rounded-full bg-gray-50">
                 <PlaceholderImage
                   src={artist.image}
                   alt={artist.name}
