@@ -5,7 +5,7 @@ export default function LandingPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-white">
       {/* 메인 타이틀 */}
       <h1
-        className="text-center text-7xl font-normal text-gray-200 md:text-8xl lg:text-9xl"
+        className="text-center text-7xl font-normal text-gray-400 md:text-8xl lg:text-9xl"
         style={{
           fontFamily: "var(--font-family-display)",
           fontStyle: "italic",
