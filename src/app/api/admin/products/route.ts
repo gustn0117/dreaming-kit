@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
       release_date: body.releaseDate,
       country: body.country || "대한민국",
       description: body.description || null,
+      detail_images: body.detailImages || [],
     })
     .select()
     .single();
@@ -74,6 +75,7 @@ export async function PUT(request: NextRequest) {
       release_date: body.releaseDate,
       country: body.country,
       description: body.description || null,
+      detail_images: body.detailImages || [],
       is_visible: body.isVisible,
       sort_order: body.sortOrder,
     })

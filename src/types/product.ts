@@ -9,6 +9,7 @@ export interface Product {
   releaseDate: string;
   country: string;
   description?: string;
+  detailImages: string[];
   sortOrder?: number;
   isVisible?: boolean;
 }
@@ -25,6 +26,7 @@ export function mapProduct(row: Record<string, unknown>): Product {
     releaseDate: row.release_date as string,
     country: row.country as string,
     description: (row.description as string) || undefined,
+    detailImages: (row.detail_images as string[]) || [],
     sortOrder: row.sort_order as number,
     isVisible: row.is_visible as boolean,
   };

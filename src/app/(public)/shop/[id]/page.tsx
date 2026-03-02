@@ -113,14 +113,26 @@ export default async function ProductDetailPage({
       </div>
 
       {/* 상품 상세 이미지 영역 */}
-      <div className="mb-12">
-        <div className="aspect-video w-full overflow-hidden bg-gray-50">
-          <PlaceholderImage
-            src={product.image}
-            alt={`${product.name} 상세`}
-            className="h-full w-full object-cover"
-          />
-        </div>
+      <div className="mb-12 space-y-4">
+        {product.detailImages.length > 0 ? (
+          product.detailImages.map((img, i) => (
+            <div key={i} className="w-full overflow-hidden bg-gray-50">
+              <PlaceholderImage
+                src={img}
+                alt={`${product.name} 상세 ${i + 1}`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))
+        ) : (
+          <div className="aspect-video w-full overflow-hidden bg-gray-50">
+            <PlaceholderImage
+              src={product.image}
+              alt={`${product.name} 상세`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
       </div>
 
       {/* 리뷰 구분선 */}

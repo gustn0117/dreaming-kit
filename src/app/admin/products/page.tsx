@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import ImageUploader from "@/components/admin/ImageUploader";
+import MultiImageUploader from "@/components/admin/MultiImageUploader";
 
 interface ProductRow {
   id: string;
@@ -14,6 +15,7 @@ interface ProductRow {
   release_date: string;
   country: string;
   description: string | null;
+  detail_images: string[];
   sort_order: number;
   is_visible: boolean;
 }
@@ -28,6 +30,7 @@ const emptyForm = {
   releaseDate: "",
   country: "대한민국",
   description: "",
+  detailImages: [] as string[],
 };
 
 export default function AdminProductsPage() {
@@ -64,6 +67,7 @@ export default function AdminProductsPage() {
       releaseDate: p.release_date,
       country: p.country,
       description: p.description || "",
+      detailImages: p.detail_images || [],
     });
     setShowModal(true);
   };
@@ -109,6 +113,7 @@ export default function AdminProductsPage() {
         releaseDate: p.release_date,
         country: p.country,
         description: p.description,
+        detailImages: p.detail_images || [],
         isVisible: !p.is_visible,
         sortOrder: p.sort_order,
       }),
@@ -255,6 +260,12 @@ export default function AdminProductsPage() {
                   rows={3}
                   className="w-full resize-none rounded-md border border-gray-200 px-3 py-2 text-sm outline-none focus:border-gray-400" />
               </div>
+
+              <MultiImageUploader
+                value={form.detailImages}
+                onChange={(urls) => setForm({ ...form, detailImages: urls })}
+                folder="products/detail"
+              />
             </div>
 
             <div className="mt-6 flex gap-3">
